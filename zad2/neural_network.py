@@ -140,13 +140,21 @@ def teachNeuralNetworkWithInput(
     validationSetSize: int,
     minDiff: float,
     inputs: np.ndarray,
-    labels: np.ndarray
+    labels: np.ndarray,
+    trainSize = 0
 ):
     dataSize = np.size(inputs, 0)
-    trainInputs = inputs[0:-validationSetSize]
-    trainLabels = labels[0:-validationSetSize]
-    validationInputs = inputs[-validationSetSize:dataSize]
-    validationLabels = labels[-validationSetSize:dataSize]
+
+    if trainSize == 0:
+        trainInputs = inputs[0:-validationSetSize]
+        trainLabels = labels[0:-validationSetSize]
+        validationInputs = inputs[-validationSetSize:dataSize]
+        validationLabels = labels[-validationSetSize:dataSize]
+    else:
+        trainInputs = inputs[0:trainSize]
+        trainLabels = labels[0:trainSize]
+        validationInputs = inputs[-validationSetSize:dataSize]
+        validationLabels = labels[-validationSetSize:dataSize]
 
     return network.learn(
         trainInputs,
@@ -160,40 +168,3 @@ def teachNeuralNetworkWithInput(
         minDiff
     )
 
-
-# hiddenLayerSize = 100
-# inputSize = 28 * 28
-# outputSize = 10
-# minweight = -0.0001
-# maxweight = 0.0001
-# minbias = -0.001
-# maxbias = 0.001
-# batchSize = 20
-# learningRate = 0.01
-# desiredError = 0.01
-# maxEpoch = 100
-# validationSetSize = 1000
-# minDiff = 0.0001
-
-# inputs = data_loader.loadTrainInputs()
-# labels = data_loader.loadTrainOutputs()
-
-# network = NeuralNetwork(
-#     hiddenLayerSize, inputSize, outputSize,
-#     minweight, maxweight, minbias, maxbias,
-#     helpers.relu
-# )
-
-# print('Learning...')
-# teachNeuralNetworkWithInput(
-#     network,
-#     batchSize,
-#     learningRate,
-#     desiredError,
-#     maxEpoch,
-#     validationSetSize,
-#     minDiff,
-#     inputs,
-#     labels
-# )
-print('Finished.')
