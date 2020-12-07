@@ -35,3 +35,18 @@ def resolveDerivative(activationFunc):
 def softmax(inputRow):
     exp = e ** inputRow
     return exp / np.sum(exp)
+
+
+def normalInitializeWeights(numberOfNeurons, inputSize, min, max):
+    baseWeights = np.random.rand(numberOfNeurons, inputSize)
+    return baseWeights * (max - min) + min
+
+
+def xavierInitializeWeights(numberOfNeurons, inputSize, min, max):
+    baseWeights = np.random.randn(numberOfNeurons, inputSize)
+    return baseWeights * np.sqrt(2 / (numberOfNeurons + inputSize))
+
+
+def heInitializeWeights(numberOfNeurons, inputSize, min, max):
+    baseWeights = np.random.randn(numberOfNeurons, inputSize)
+    return baseWeights * np.sqrt(2 / (inputSize))
