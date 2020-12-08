@@ -1,5 +1,6 @@
 import numpy as np
 import helpers
+import mlp_network.neural_network as mlp
 
 class Network:
 
@@ -13,10 +14,18 @@ class Network:
         featureMapSize = 28,
         activationFun = helpers.relu,
         poolingWindowSize = 2,
+        hiddenLayerSize = 128
     ):
         self.filterTensor = self.initializeFilterTensor(filterSize)
         self.featureMapTensor = np.empty((numberOfFilters, featureMapSize, featureMapSize))
         self.poolingFeatureMapTensor = np.empty((numberOfFilters, featureMapSize / poolingWindowSize, featureMapSize / poolingWindowSize))
+        self.mlpNetwork = mlp.NeuralNetwork(
+            hiddenLayerSize,
+            numberOfFilters * (featureMapSize / poolingWindowSize),
+            10,
+            -0.1, 0.1, -0.1, 0.1,
+            activationFun
+        )
         self.paddingSize = paddingSize
         self.step = step
         self.filterSize = filterSize
@@ -60,3 +69,6 @@ class Network:
 
 
     def feedForward(self, image):
+        self.convolute(image)
+        self.pool()
+        self.mlpNetwork.feedForward(self.poolingFeatureMapTensor.flatten())

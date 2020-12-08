@@ -1,8 +1,8 @@
 import numpy as np
 from math import e
 
-def relu(matrix):
-    return np.minimum(np.maximum(matrix, 0), 10)
+def relu(inputRow):
+    return np.array([min(max(0, x), 10) for x in inputRow])
 
 
 def sigmoid(inputRow):
@@ -37,6 +37,16 @@ def softmax(inputRow):
     return exp / np.sum(exp)
 
 
-def heInitializeFilters(filterSize, numberOfFilters):
-    baseWeights = np.random.randn(numberOfFilters, filterSize, filterSize)
-    return baseWeights * np.sqrt(2 / (filterSize))
+def normalInitializeWeights(numberOfNeurons, inputSize, min, max):
+    baseWeights = np.random.rand(numberOfNeurons, inputSize)
+    return baseWeights * (max - min) + min
+
+
+def xavierInitializeWeights(numberOfNeurons, inputSize, min, max):
+    baseWeights = np.random.randn(numberOfNeurons, inputSize)
+    return baseWeights * np.sqrt(2 / (numberOfNeurons + inputSize))
+
+
+def heInitializeWeights(numberOfNeurons, inputSize, min, max):
+    baseWeights = np.random.randn(numberOfNeurons, inputSize)
+    return baseWeights * np.sqrt(2 / (inputSize))
