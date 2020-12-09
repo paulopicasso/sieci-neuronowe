@@ -16,7 +16,7 @@ class Network:
         poolingWindowSize = 2,
         hiddenLayerSize = 128
     ):
-        self.filterTensor = self.initializeFilterTensor(filterSize)
+        self.filterTensor = self.initializeFilterTensor(filterSize, numberOfFilters)
         self.featureMapTensor = np.empty((numberOfFilters, featureMapSize, featureMapSize))
         self.poolingFeatureMapTensor = np.empty((numberOfFilters, featureMapSize / poolingWindowSize, featureMapSize / poolingWindowSize))
         self.mlpNetwork = mlp.NeuralNetwork(
@@ -36,8 +36,8 @@ class Network:
         self.poolingWindowSize = poolingWindowSize
         
     
-    def initializeFilterTensor(self, filterSize):
-        helpers.heInitializeFilters(filterSize, numberOfFilters)
+    def initializeFilterTensor(self, filterSize, numberOfFilters):
+        return helpers.heInitializeFilters(filterSize, numberOfFilters)
 
 
     def prepareImageForConvolution(self, image):
@@ -72,3 +72,9 @@ class Network:
         self.convolute(image)
         self.pool()
         self.mlpNetwork.feedForward(self.poolingFeatureMapTensor.flatten())
+
+
+    def backpropagateError(self, expectedOutput):
+        self.mlpNetwork.backPropagateError(self.mlpNetwork.outputLayerActivations[-1], expectedOutput)
+        self.
+

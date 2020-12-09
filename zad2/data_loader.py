@@ -24,3 +24,4 @@ def loadOutputs(path: str) -> np.ndarray:
         zeros[i][label] = 1
     
     return zeros
+
