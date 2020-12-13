@@ -1,12 +1,21 @@
 import numpy as np
 from math import e
 
-def relu(matrix):
-    return np.minimum(np.maximum(matrix, 0), 10)
+def relu(x):
+    # return np.minimum(np.maximum(x, 0), 100)
+    return np.maximum(x, 0)
 
 
-def sigmoid(inputRow):
-    return np.array([1 / (1 + e**float(-x)) for x in inputRow], dtype='f8')
+def sigmoid(x):
+    return 1 / (1 + (1 / e ** x))
+
+
+# def sigmoid(inputRow):
+#     return np.array([1 / (1 + e**float(-x)) for x in inputRow], dtype='f8')
+
+
+def reluDeriv(x):
+    return np.minimum(np.maximum(np.ceil(x), 0), 1) 
 
 
 def crossEntropy(outputs, expectedOutputs):
@@ -18,10 +27,6 @@ def crossEntropy(outputs, expectedOutputs):
 def sigmoidDeriv(inputRow):
     sigmoidOutput = sigmoid(inputRow)
     return sigmoidOutput * (1 - sigmoidOutput)
-
-
-def reluDeriv(inputRow):
-    return np.array([1 if x > 0 else 0 for x in inputRow])
 
 
 def resolveDerivative(activationFunc):
@@ -37,6 +42,15 @@ def softmax(inputRow):
     return exp / np.sum(exp)
 
 
+def initializeWeightsUniform(size, min, max):
+    baseWeights = np.random.rand(size)
+    return baseWeights * (max - min) + min
+
+
 def heInitializeFilters(filterSize, numberOfFilters):
     baseWeights = np.random.randn(numberOfFilters, filterSize, filterSize)
     return baseWeights * np.sqrt(2 / (filterSize))
+
+def xavierInitializeWeights(filterSize, numberOfFilters):
+    baseWeights = np.random.randn(numberOfFilters, filterSize, filterSize)
+    return baseWeights * np.sqrt(2 / (numberOfFilters + filterSize))

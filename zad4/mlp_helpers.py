@@ -1,8 +1,11 @@
 import numpy as np
 from math import e
 
-def relu(inputRow):
-    return np.array([min(max(0, x), 10) for x in inputRow])
+# def relu(inputRow):
+#     return np.array([min(max(0, x), 10) for x in inputRow])
+def relu(x):
+    return np.minimum(np.maximum(x, 0), 10)
+    # return np.maximum(x, 0)
 
 
 def sigmoid(inputRow):
@@ -20,8 +23,9 @@ def sigmoidDeriv(inputRow):
     return sigmoidOutput * (1 - sigmoidOutput)
 
 
-def reluDeriv(inputRow):
-    return np.array([1 if x > 0 else 0 for x in inputRow])
+def reluDeriv(x):
+    return np.minimum(np.maximum(np.ceil(x), 0), 1) 
+
 
 
 def resolveDerivative(activationFunc):

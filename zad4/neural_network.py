@@ -1,7 +1,7 @@
 import numpy as np
-import data_loader
+import mlp_data_loader as data_loader
 from math import e
-import helpers
+import mlp_helpers as helpers
 
 class NeuralNetwork:
 
